@@ -76,6 +76,10 @@ class Registrasi extends \yii\db\ActiveRecord
         }
         return parent::beforeValidate();
     }
+    public function getPetugasPendaftaran()
+    {
+        return $this->hasOne(Pegawai::className(), ['pgw_id' => 'reg_created_by']);
+    }
 
     function getLayanan()
     {

@@ -1,9 +1,12 @@
 <?php
+
 namespace app\models;
+
 use Yii;
+
 class Pegawai extends \yii\db\ActiveRecord
 {
-    static $prefix="pgw";
+    static $prefix = "pgw";
     public static function tableName()
     {
         return 'sdm_m_pegawai';
@@ -83,11 +86,15 @@ class Pegawai extends \yii\db\ActiveRecord
     }
     function getPenempatan()
     {
-        return $this->hasMany(RiwayatPenempatan::className(),['rwp_pgw_id'=>'pgw_id'])->orderBy(['rwp_tanggal_surat'=>SORT_DESC])->limit(1);
+        return $this->hasMany(RiwayatPenempatan::className(), ['rwp_pgw_id' => 'pgw_id'])->orderBy(['rwp_tanggal_surat' => SORT_DESC])->limit(1);
     }
     static function listDokterRawatinap()
     {
-        $query = self::find()->where(['pgw_rpn_id'=>1])->select(["pgw_id as id","concat(COALESCE(pgw_gelar_depan,''),' ',COALESCE(pgw_nama,''),' ',COALESCE(pgw_gelar_belakang,'')) as text"])->notDeleted(self::$prefix)->asArray()->all();
+        $query = self::find()->where(['pgw_rpn_id' => 1])->select(["pgw_id as id", "concat(COALESCE(pgw_gelar_depan,''),' ',COALESCE(pgw_nama,''),' ',COALESCE(pgw_gelar_belakang,'')) as text"])->notDeleted(self::$prefix)->asArray()->all();
         return $query;
+    }
+    function getRegistrasi()
+    {
+        return $this->hasMany(Registrasi::className(), ['reg_created_by' => 'pgw_id']);
     }
 }
